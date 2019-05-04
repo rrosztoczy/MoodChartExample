@@ -35,9 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // For each element in stressLevel, create a stressGradientStroke.addColorStop(point, color)
         // Point should be... what?
         // Color should be dynamic based on teh stress value
-        stressGradientStroke.addColorStop(0, "#94d973");
-        stressGradientStroke.addColorStop(0.5, "#fad874");
-        stressGradientStroke.addColorStop(1, "#f49080");
+        // So point should be that index / array.length
+        // Color will be a map.... get green yellow orange red gradient with ten steps
+        stressLevel.forEach((dataPoint, i) => (stressGradientStroke.addColorStop(i/stressLevel.length, "#94d973")))
     
         const moodData = {
             labels: formattedDateTime,
