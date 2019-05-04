@@ -1,19 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // TODO: Map gradient colors at each point to mood/stress values and levels
 
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
     const stressGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-    stressGradientStroke.addColorStop(0, "#80b6f4");
-    stressGradientStroke.addColorStop(0.2, "#94d973");
+    stressGradientStroke.addColorStop(0, "#94d973");
     stressGradientStroke.addColorStop(0.5, "#fad874");
     stressGradientStroke.addColorStop(1, "#f49080");
 
     const moodGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-    moodGradientStroke.addColorStop(0, "#80b6f4");
-    moodGradientStroke.addColorStop(0.2, "#94d973");
+    moodGradientStroke.addColorStop(0, "#94d973");
     moodGradientStroke.addColorStop(0.5, "#fad874");
     moodGradientStroke.addColorStop(1, "#f49080");
+
+    const stressGradientFill = ctx.createLinearGradient(500, 0, 100, 0);
+    stressGradientFill.addColorStop(0, "rgba(128, 182, 244, 0.6)");
+    stressGradientFill.addColorStop(1, "rgba(244, 144, 128, 0.6)");
     
     (async () => {
         // Can I so something in here like... get data.... format data.... map data... ?
@@ -38,10 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     pointBackgroundColor: moodGradientStroke,
                     pointHoverBackgroundColor: moodGradientStroke,
                     pointHoverBorderColor: moodGradientStroke,
+                    fill: false,
                     data: mood
                 },
                 {
                     label: "Stress Level",
+                    fill: true,
+                    backgroundColor: stressGradientFill,
                     borderColor: stressGradientStroke,
                     pointBorderColor: stressGradientStroke,
                     pointBackgroundColor: stressGradientStroke,
@@ -85,7 +91,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 fontColor: "green"
             }
             }]
-        }
+        },
+        animation: {
+            easing: "easeInOutBack"
+          }
         }
     
     var myChart = await new Chart(ctx, {
