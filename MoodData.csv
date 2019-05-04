@@ -1,0 +1,14 @@
+﻿Time,StressLevel,Mood,Activity,Notable Event
+"May 7, 2019 07:00:00",3,6,Wakeup,None
+"May 7, 2019 08:00:00",5,7,"Daily prep, walk",Accidentally slept in
+"May 7, 2019 09:00:00",1,10,Dev - Project,None
+"May 7, 2019 10:00:00",1,10,Dev - Project,None
+"May 7, 2019 11:00:00",2,10,Dev - Project,None
+"May 7, 2019 12:00:00",3,10,"Lunch, Dev - Project",None
+"May 7, 2019 13:00:00",4,10,Dev - Project,None
+"May 7, 2019 14:00:00",6,10,Dev - Project,None
+"May 7, 2019 15:00:00",4,8,Meditate,None
+"May 7, 2019 16:00:00",4,6,Dev - Project,None
+"May 7, 2019 17:00:00",8,5,Prep - Presentation,Can't find presentation
+"May 7, 2019 18:00:00",10,7,Presentation,None
+"May 7, 2019 19:00:00",2,9,Glass of wine,None
