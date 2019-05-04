@@ -2,6 +2,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+
+    const stressGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+    stressGradientStroke.addColorStop(0, "#80b6f4");
+    stressGradientStroke.addColorStop(0.2, "#94d973");
+    stressGradientStroke.addColorStop(0.5, "#fad874");
+    stressGradientStroke.addColorStop(1, "#f49080");
+
+    const moodGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+    moodGradientStroke.addColorStop(0, "#80b6f4");
+    moodGradientStroke.addColorStop(0.2, "#94d973");
+    moodGradientStroke.addColorStop(0.5, "#fad874");
+    moodGradientStroke.addColorStop(1, "#f49080");
     
     (async () => {
         // Can I so something in here like... get data.... format data.... map data... ?
@@ -21,10 +33,20 @@ document.addEventListener("DOMContentLoaded", () => {
             datasets: [
                 {
                     label: "Mood",
+                    borderColor: moodGradientStroke,
+                    pointBorderColor: moodGradientStroke,
+                    pointBackgroundColor: moodGradientStroke,
+                    pointHoverBackgroundColor: moodGradientStroke,
+                    pointHoverBorderColor: moodGradientStroke,
                     data: mood
                 },
                 {
                     label: "Stress Level",
+                    borderColor: stressGradientStroke,
+                    pointBorderColor: stressGradientStroke,
+                    pointBackgroundColor: stressGradientStroke,
+                    pointHoverBackgroundColor: stressGradientStroke,
+                    pointHoverBorderColor: stressGradientStroke,
                     data: stressLevel
                 }
             ]
