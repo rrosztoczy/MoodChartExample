@@ -6,17 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-
-
-
-    const moodGradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
-    moodGradientStroke.addColorStop(0, "#94d973");
-    moodGradientStroke.addColorStop(0.5, "#fad874");
-    moodGradientStroke.addColorStop(1, "#f49080");
-
-    const stressGradientFill = ctx.createLinearGradient(500, 0, 100, 0);
-    stressGradientFill.addColorStop(0, "rgba(128, 182, 244, 0.6)");
-    stressGradientFill.addColorStop(1, "rgba(244, 144, 128, 0.6)");
     
     (async () => {
         // Can I so something in here like... get data.... format data.... map data... ?
@@ -31,43 +20,49 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("set variables", mood)
         console.log("set variables", stressLevel)
 
-        const stressGradientStroke = await ctx.createLinearGradient(formattedDateTime[0], stressLevel[0], formattedDateTime[1], stressLevel[1]);
+        const stressGradientStroke = await ctx.createLinearGradient(0, 0, 1020, 0);
+        console.log("canvas coord", canvas.clientWidth, canvas.clientHeight)
         // For each element in stressLevel, create a stressGradientStroke.addColorStop(point, color)
         // Point should be... what?
         // Color should be dynamic based on teh stress value
         // So point should be that index / array.length
         // Color will be a map.... get green yellow orange red gradient with ten steps
-const gradientMap = {
-10: '#FF0000',
-9: '#FF3300',
-8: '#ff6600',
-7: '#ff9900',
-6: '#FFCC00',
-5: '#FFFF00',
-4: '#ccff00',
-3: '#99ff00',
-2: '#66ff00',
-1: '#33ff00'
-}
-        stressLevel.forEach((stressData, i) => (stressGradientStroke.addColorStop(i/stressLevel.length, gradientMap[stressData])))
+        const gradientMap = {
+        10: '#FF0000',
+        9: '#FF3300',
+        8: '#ff6600',
+        7: '#ff9900',
+        6: '#FFCC00',
+        5: '#FFFF00',
+        4: '#ccff00',
+        3: '#99ff00', /*problem child... why is three defining everything? That is the very first stress level data point */
+        2: '#66ff00',
+        1: '#33ff00'
+        }
+        stressLevel.forEach((stressData, i) => {
+            console.log("position:", (i/stressLevel.length).toFixed(2), "hex", gradientMap[stressData], "stress data", stressData)
+            stressGradientStroke.addColorStop((i/stressLevel.length).toFixed(2), gradientMap[stressData])
+        })
+
+        console.log(stressGradientStroke)
     
         const moodData = {
             labels: formattedDateTime,
             datasets: [
                 {
                     label: "Mood",
-                    borderColor: moodGradientStroke,
-                    pointBorderColor: moodGradientStroke,
-                    pointBackgroundColor: moodGradientStroke,
-                    pointHoverBackgroundColor: moodGradientStroke,
-                    pointHoverBorderColor: moodGradientStroke,
+                    borderColor: "#80b6f4",
+                    pointBorderColor: "#80b6f4",
+                    pointBackgroundColor: "#80b6f4",
+                    pointHoverBackgroundColor: "#80b6f4",
+                    pointHoverBorderColor: "#80b6f4",
                     fill: false,
                     data: mood
                 },
                 {
                     label: "Stress Level",
                     fill: true,
-                    backgroundColor: stressGradientFill,
+                    backgroundColor: stressGradientStroke,
                     borderColor: stressGradientStroke,
                     pointBorderColor: stressGradientStroke,
                     pointBackgroundColor: stressGradientStroke,
