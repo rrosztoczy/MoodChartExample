@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // TODO: Goal is to map gradient colors at each point to mood/stress values and levels
-    // Only ten levels... so mapping not too tough.... 
-    // So stressGS createLinearGradient(x0, y0, x1, y1) = createLinearGradient(formattedDateTime[0], stressLevel[0], formattedDateTime[1], stressLevel[1])
+    // TODO: Update display comments to include stress level, activity, notable event
 
+    
+    const chartContainer = document.getElementById('chart-container');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
     
-    (async () => {
+    const draw = async () => {
         // Can I so something in here like... get data.... format data.... map data... ?
         const parsedData = await d3.csv("MoodData.csv")
         const dateTime = await parsedData.map((moment) => moment.Time)
@@ -15,36 +15,42 @@ document.addEventListener("DOMContentLoaded", () => {
         const stressLevel = await parsedData.map((moment) => parseInt(moment.StressLevel))
         const mood = await parsedData.map((moment) => parseInt(moment.Mood))
         const activity = await parsedData.map((moment) => moment.Activity)
-        console.log("set variables", activity)
-        console.log("set variables", formattedDateTime)
-        console.log("set variables", mood)
-        console.log("set variables", stressLevel)
+        const notableEvents = await parsedData.map((moment) => moment.NotableEvent)
 
-        const stressGradientStroke = await ctx.createLinearGradient(60, 0, 1020, 0);
-        console.log("canvas coord", canvas.clientWidth, canvas.clientHeight)
-        // For each element in stressLevel, create a stressGradientStroke.addColorStop(point, color)
-        // Point should be... what?
-        // Color should be dynamic based on teh stress value
-        // So point should be that index / array.length
-        // Color will be a map.... get green yellow orange red gradient with ten steps
         const gradientMap = {
-        10: '#FF0000',
-        9: '#FF3300',
-        8: '#ff6600',
-        7: '#ff9900',
-        6: '#FFCC00',
-        5: '#FFFF00',
-        4: '#ccff00',
-        3: '#99ff00', /*problem child... why is three defining everything? That is the very first stress level data point */
-        2: '#66ff00',
-        1: '#33ff00'
+        10: 'rgba(255, 0, 0, 1)',
+        9: 'rgba(255, 51, 0, 1)',
+        8: 'rgba(255, 102, 0, 1)',
+        7: 'rgba(255, 153, 0, 1)',
+        6: 'rgba(255, 204, 0, 1)',
+        5: 'rgba(255, 255, 0, 1)',
+        4: 'rgba(204, 255, 0, 1)',
+        3: 'rgba(153, 255, 0, 1)', 
+        2: 'rgba(102, 255, 0, 1)',
+        1: 'rgba(51, 255, 0, 1)'
         }
+
+        const gradientFillMap = {
+            10: 'rgba(255, 0, 0, 0.3)',
+            9: 'rgba(255, 51, 0, 0.3)',
+            8: 'rgba(255, 102, 0, 0.3)',
+            7: 'rgba(255, 153, 0, 0.3)',
+            6: 'rgba(255, 204, 0, 0.3)',
+            5: 'rgba(255, 255, 0, 0.3)',
+            4: 'rgba(204, 255, 0, 0.3)',
+            3: 'rgba(153, 255, 0, 0.3)', 
+            2: 'rgba(102, 255, 0, 0.3)',
+            1: 'rgba(51, 255, 0, 0.3)'
+            }
+            // Note... it seems the default starting pixel for the y axis is 60, unless the window width goes below 743 so would need media queries
+        const stressGradientStroke = await ctx.createLinearGradient(60, 0, window.innerWidth+60, 0);
+        const stressFillGradientStroke = await ctx.createLinearGradient(60, 0, window.innerWidth+60, 0);
         stressLevel.forEach((stressData, i) => {
-            console.log("position:", (i/stressLevel.length).toFixed(2), "hex", gradientMap[stressData], "stress data", stressData)
             stressGradientStroke.addColorStop((i/stressLevel.length).toFixed(2), gradientMap[stressData])
         })
-
-        console.log(stressGradientStroke)
+        stressLevel.forEach((stressData, i) => {
+            stressFillGradientStroke.addColorStop((i/stressLevel.length).toFixed(2), gradientFillMap[stressData])
+        })
     
         const moodData = {
             labels: formattedDateTime,
@@ -62,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 {
                     label: "Stress Level",
                     fill: true,
-                    backgroundColor: stressGradientStroke,
+                    backgroundColor: stressFillGradientStroke,
                     borderColor: stressGradientStroke,
                     pointBorderColor: stressGradientStroke,
                     pointBackgroundColor: stressGradientStroke,
@@ -74,6 +80,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     
         const options = {
+        // responsive: true,
+        tooltips: {
+            callbacks: {/*place the activity and notable event here*/ 
+                label: function(tooltipItem) {
+                    console.log("index:", tooltipItem.index, "event", notableEvents[tooltipItem.index])
+                    let event = notableEvents[tooltipItem.index] ? "\n!Note: " + notableEvents[tooltipItem.index] : ""
+                    return "While " + activity[tooltipItem.index] + " " + event;
+                }
+            },
+            hover: {
+            mode: 'nearest',
+            intersect: true
+            }},
         legend: {
             display: true,
             position: 'top',
@@ -112,13 +131,15 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
     
-    var myChart = await new Chart(ctx, {
+    const myChart = await new Chart(ctx, {
         type: 'line',
         data: moodData,
         options: options
     })
         
     
-    })()
-    })
+    }
+    draw()
+    // document.addEventListener("resize", draw)
+})
     
