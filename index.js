@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("set variables", mood)
         console.log("set variables", stressLevel)
 
-        const stressGradientStroke = await ctx.createLinearGradient(0, 0, 1020, 0);
+        const stressGradientStroke = await ctx.createLinearGradient(60, 0, 1020, 0);
         console.log("canvas coord", canvas.clientWidth, canvas.clientHeight)
         // For each element in stressLevel, create a stressGradientStroke.addColorStop(point, color)
         // Point should be... what?
