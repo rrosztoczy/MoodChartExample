@@ -69,13 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 {
                     label: "Stress Level",
-                    fill: true,
-                    backgroundColor: stressFillGradientStroke,
-                    borderColor: stressGradientStroke,
-                    pointBorderColor: stressGradientStroke,
-                    pointBackgroundColor: stressGradientStroke,
-                    pointHoverBackgroundColor: stressGradientStroke,
-                    pointHoverBorderColor: stressGradientStroke,
+                    fill: false,
+                    backgroundColor: "#80b6f4",
+                    borderColor: "#80b6f4",
+                    pointBorderColor: "#80b6f4",
+                    pointBackgroundColor: "#80b6f4",
+                    pointHoverBackgroundColor: "#80b6f4",
+                    pointHoverBorderColor: "#80b6f4",
                     data: stressLevel
                 }
             ]
